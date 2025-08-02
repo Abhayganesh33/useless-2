@@ -1,0 +1,1338 @@
+diagonal tilted 
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>3D Dice Chess</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <h1>Dice-Controlled 3D Chess</h1>
+  <div id="board-container">
+    <div id="chessboard"></div>
+  </div>
+  <script src="script.js"></script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+body {
+  margin: 0;
+  padding: 0;
+  background: linear-gradient(to bottom right, #e0e0e0, #f8f8f8);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-family: 'Segoe UI', sans-serif;
+  height: 100vh;
+  overflow: hidden;
+}
+
+h1 {
+  margin-top: 20px;
+  margin-bottom: 20px;
+  color: #222;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+#board-container {
+  perspective: 1000px;
+}
+
+#chessboard {
+  display: grid;
+  grid-template-columns: repeat(8, 60px);
+  grid-template-rows: repeat(8, 60px);
+  transform: rotateX(60deg) rotateZ(45deg);
+  transform-style: preserve-3d;
+  border: 4px solid #333;
+  box-shadow: 0 12px 25px rgba(0, 0, 0, 0.5);
+  border-radius: 10px;
+}
+
+.square {
+  width: 60px;
+  height: 60px;
+  box-sizing: border-box;
+}
+
+.white {
+  background: linear-gradient(to bottom right, #f0f0f0, #d4d4d4);
+  box-shadow: inset 1px 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+.black {
+  background: linear-gradient(to bottom right, #666, #222);
+  box-shadow: inset -1px -1px 2px rgba(255, 255, 255, 0.1);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+const board = document.getElementById('chessboard');
+
+for (let row = 0; row < 8; row++) {
+  for (let col = 0; col < 8; col++) {
+    const square = document.createElement('div');
+    square.classList.add('square');
+
+    // Add alternating colors
+    if ((row + col) % 2 === 0) {
+      square.classList.add('white');
+    } else {
+      square.classList.add('black');
+    }
+
+    board.appendChild(square);
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+222222222222222222222222222222222222222222222222
+
+bg added 
+
+css
+
+
+
+
+body {
+  margin: 0;
+  padding: 0;
+  background: url('https://i.ibb.co/Sj32xdQ/wood-2045380-1920.jpg') no-repeat center center fixed;
+  background-size: cover;
+  font-family: Arial, sans-serif;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+h1 {
+  margin-top: 20px;
+  color: #333;
+  text-align: center;
+}
+
+.main-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  gap: 40px; /* Space on both sides */
+  margin-top: 20px;
+}
+
+.board-container {
+  perspective: 1000px;
+  transform: scale(0.75); /* Slight zoom-out */
+}
+
+#chessboard {
+  display: grid;
+  grid-template-columns: repeat(8, 60px);
+  grid-template-rows: repeat(8, 60px);
+  transform: rotateX(30deg);
+  transform-origin: top center;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+  border: 4px solid #222;
+  border-radius: 8px;
+}
+
+.square {
+  width: 60px;
+  height: 60px;
+  box-sizing: border-box;
+}
+
+.white {
+  background: #f3eac3;
+}
+
+.black {
+  background-color: #8b5e3c;
+  background-image: repeating-linear-gradient(
+    45deg,
+    #8b5e3c 0px,
+    #8b5e3c 8px,
+    #71492e 8px,
+    #71492e 10px
+  );
+}
+
+
+
+
+
+
+
+
+
+
+#DBDBC3
+
+
+
+
+
+33333333333333333333333333333333333333333
+
+
+
+
+knight   https://i.ibb.co/cShHDVHL/kuthira.png
+
+bishop   https://i.ibb.co/yBGyPd1h/bishop.png
+
+pawn   https://i.ibb.co/HTqk2Lws/pawn.png
+
+king    https://i.ibb.co/TqRVhKrV/king.png
+
+queen     https://i.ibb.co/k2TbvTnd/queen.png
+
+rook    https://i.ibb.co/2YvTYH57/rook.png
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+chess piece include css
+
+
+piece js 
+
+
+const initialPosition = [
+  ["", "", "", "", "", "", "", ""],
+  ["", "", "", "", "", "", "", ""],
+  ["", "", "", "", "", "", "", ""],
+  ["", "", "", "", "", "", "", ""],
+  ["", "", "", "", "", "", "", ""],
+  ["", "", "", "", "", "", "", ""],
+  ["", "", "", "", "wp", "", "", ""],
+  ["", "", "", "", "", "", "", ""]
+];
+
+// Mapping piece codes to their hosted image URLs
+const pieceImages = {
+  wp: "https://i.ibb.co/HTqk2Lws/pawn.png"
+};
+
+window.onload = function () {
+  const board = document.getElementById("chessboard");
+  board.innerHTML = ""; // Clear any old content
+
+  for (let row = 0; row < 8; row++) {
+    for (let col = 0; col < 8; col++) {
+      const square = document.createElement("div");
+      square.className = "square " + ((row + col) % 2 === 0 ? "white" : "black");
+
+      // Only place 1 white pawn at row 6, col 4
+      if (row === 6 && col === 4) {
+        const img = document.createElement("img");
+        img.src = "https://i.ibb.co/HTqk2Lws/pawn.png";
+        img.alt = "wp";
+        img.className = "chess-piece";
+        square.appendChild(img);
+      }
+
+      board.appendChild(square);
+    }
+  }
+};
+
+
+
+
+
+
+
+
+
+
+full chess set board 
+
+
+
+
+
+
+index html 
+
+
+
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tilted Dice-Controlled Chess</title>
+    <link rel="stylesheet" href="style.css">
+    </head>
+    <body>
+    <h1>Tilted Dice-Controlled Chess</h1>
+    <div class="main-container">
+        <div class="dice-container">
+        <h2>Roll the Dice!</h2>
+        <div class="dice-section">
+            <div class="dice-group">
+            <h3>Piece Selection Die</h3>
+            <div class="dice" id="piece-die">
+                <div class="dice-face">1</div>
+            </div>
+            <p class="dice-label">Selects: Rook</p>
+            </div>
+            
+            <div class="dice-group">
+            <h3>Movement Die</h3>
+            <div class="dice" id="movement-die">
+                <div class="dice-face">4</div>
+            </div>
+            <p class="dice-label">Direction: Left</p>
+            </div>
+        </div>
+        
+        <button class="roll-button" id="roll-dice">Roll Both Dice</button>
+        </div>
+        
+        <div class="board-container">
+        <div id="chessboard"></div>
+        </div>
+        
+        <div class="legend-container">
+        <div class="dice-legend">
+            <h4>Piece Selection (Die 1):</h4>
+            <ul>
+            <li>1 = Rook</li>
+            <li>2 = Knight</li>
+            <li>3 = Bishop</li>
+            <li>4 = Queen</li>
+            <li>5 = King</li>
+            <li>6 = Pawn</li>
+            </ul>
+            
+            <h4>Movement (Die 2):</h4>
+            <ul>
+            <li>1 = Forward</li>
+            <li>2 = Right</li>
+            <li>3 = Backward</li>
+            <li>4 = Left</li>
+            <li>5 = Diagonal</li>
+            <li>6 = Special Move</li>
+            </ul>
+        </div>
+        </div>
+    </div>
+    
+    <script src="script.js"></script>
+    <script src="pieces.js"></script>
+    <script src="dice.js"></script>
+    </body>
+    </html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+style css
+
+
+
+
+
+body {
+  margin: 0;
+  padding: 0;
+  background: url('https://i.ibb.co/Sj32xdQ/wood-2045380-1920.jpg') no-repeat center center fixed;
+  background-size: cover;
+  font-family: Arial, sans-serif;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 20px;
+}
+
+h1 {
+  margin: 20px 0;
+  color: #f20707;
+  text-align: center;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.main-container {
+  display: grid;
+  grid-template-columns: 250px 1fr 250px;
+  align-items: start;
+  justify-content: center;
+  width: 100%;
+  max-width: 900px;
+  gap: 140px;
+  margin-top: 20px;
+}
+
+.board-container {
+  perspective: 1000px;
+  transform: scale(0.85);
+  justify-self: center;
+}
+
+#chessboard {
+  display: grid;
+  grid-template-columns: repeat(8, 60px);
+  grid-template-rows: repeat(8, 60px);
+  transform: rotateX(30deg);
+  transform-origin: top center;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+  border: 4px solid #222;
+  border-radius: 8px;
+}
+
+.square {
+  width: 60px;
+  height: 60px;
+  box-sizing: border-box;
+}
+
+.white {
+  background: #f3eac3;
+}
+
+.black {
+  background-color: #8b5e3c;
+  background-image: repeating-linear-gradient(
+    45deg,
+    #8b5e3c 0px,
+    #8b5e3c 8px,
+    #71492e 8px,
+    #71492e 10px
+  );
+}
+
+.chess-piece {
+  width: 100%;
+  height: 100%;
+  max-width: 100px;
+  max-height: 100px;
+  object-fit: contain;
+  display: block;
+  margin: auto;
+  pointer-events: none;
+  user-select: none;
+}
+
+/* Dice Container Styles */
+.dice-container {
+  background: rgba(255, 255, 255, 0.35);
+  padding: 20px;
+  border-radius: 15px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+  border: 3px solid #8b5e3c;
+  width: 100%;
+  height: 400px;
+}
+
+.dice-container h2 {
+  text-align: center;
+  color: #000000;
+  margin-bottom: 20px;
+  font-size: 1.2em;
+}
+
+.dice-section {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+.dice-group {
+  text-align: center;
+}
+
+.dice-group h3 {
+  color: #000000;
+  margin-bottom: 10px;
+  font-size: 1em;
+}
+
+.dice {
+  width: 60px;
+  height: 60px;
+  background: #fff;
+  border: 3px solid #333;
+  border-radius: 12px;
+  margin: 10px auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  transition: transform 0.3s ease;
+  cursor: pointer;
+}
+
+.dice:hover {
+  transform: scale(1.05);
+}
+
+.dice.rolling {
+  animation: rollAnimation 1s ease-in-out;
+}
+
+@keyframes rollAnimation {
+  0% { transform: rotate(0deg) scale(1); }
+  25% { transform: rotate(90deg) scale(1.1); }
+  50% { transform: rotate(180deg) scale(1.2); }
+  75% { transform: rotate(270deg) scale(1.1); }
+  100% { transform: rotate(360deg) scale(1); }
+}
+
+.dice-face {
+  font-size: 2em;
+  font-weight: bold;
+  color: #333;
+}
+
+.dice-label {
+  color: #000000;
+  font-size: 0.8em;
+  margin-top: 5px;
+  font-weight: bold;
+}
+
+.roll-button {
+  width: 100%;
+  padding: 12px;
+  background: linear-gradient(45deg, #f20707, #ff4444);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 1em;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-bottom: 15px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.roll-button:hover {
+  background: linear-gradient(45deg, #d40606, #ff3333);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+}
+
+.roll-button:active {
+  transform: translateY(0);
+}
+
+.roll-button:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* Legend Container Styles */
+.legend-container {
+  background: rgba(255, 255, 255, 0.35);
+  padding: 20px;
+  border-radius: 15px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+  border: 3px solid #8b5e3c;
+  width: 100%;
+  height: 400px;
+}
+
+.dice-legend {
+  background: transparent;
+  padding: 0;
+  border-radius: 0;
+  font-size: 0.9em;
+}
+
+.dice-legend h4 {
+  color: #000000;
+  margin: 0 0 8px 0;
+  font-size: 1.1em;
+}
+
+.dice-legend ul {
+  margin: 0 0 15px 0;
+  padding-left: 20px;
+}
+
+.dice-legend li {
+  color: #000000;
+  margin-bottom: 3px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .main-container {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto auto;
+    gap: 15px;
+    max-width: 95%;
+  }
+  
+  .dice-container,
+  .legend-container {
+    width: 100%;
+    max-width: 300px;
+    justify-self: center;
+  }
+  
+  .board-container {
+    transform: scale(0.7);
+    order: 2;
+  }
+  
+  .dice-container {
+    order: 1;
+  }
+  
+  .legend-container {
+    order: 3;
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+dice js
+
+
+
+class DiceController {
+  constructor() {
+    this.pieceDie = document.getElementById('piece-die');
+    this.movementDie = document.getElementById('movement-die');
+    this.rollButton = document.getElementById('roll-dice');
+    this.isRolling = false;
+    
+    this.pieceMapping = {
+      1: 'Rook',
+      2: 'Knight', 
+      3: 'Bishop',
+      4: 'Queen',
+      5: 'King',
+      6: 'Pawn'
+    };
+    
+    this.movementMapping = {
+      1: 'Forward',
+      2: 'Right',
+      3: 'Backward', 
+      4: 'Left',
+      5: 'Diagonal',
+      6: 'Special Move'
+    };
+    
+    this.init();
+  }
+  
+  init() {
+    this.rollButton.addEventListener('click', () => this.rollDice());
+    
+    // Add individual dice click handlers for single rolls
+    this.pieceDie.addEventListener('click', () => this.rollSingleDie('piece'));
+    this.movementDie.addEventListener('click', () => this.rollSingleDie('movement'));
+  }
+  
+  rollDice() {
+    if (this.isRolling) return;
+    
+    this.isRolling = true;
+    this.rollButton.disabled = true;
+    this.rollButton.textContent = 'Rolling...';
+    
+    // Add rolling animation
+    this.pieceDie.classList.add('rolling');
+    this.movementDie.classList.add('rolling');
+    
+    // Simulate rolling animation with random numbers
+    const rollDuration = 1000; // 1 second
+    const rollInterval = 100; // Change number every 100ms
+    
+    const rollAnimation = setInterval(() => {
+      this.updateDiceDisplay('piece', Math.floor(Math.random() * 6) + 1);
+      this.updateDiceDisplay('movement', Math.floor(Math.random() * 6) + 1);
+    }, rollInterval);
+    
+    // Stop animation and show final results
+    setTimeout(() => {
+      clearInterval(rollAnimation);
+      
+      const pieceResult = Math.floor(Math.random() * 6) + 1;
+      const movementResult = Math.floor(Math.random() * 6) + 1;
+      
+      this.updateDiceDisplay('piece', pieceResult);
+      this.updateDiceDisplay('movement', movementResult);
+      
+      // Remove rolling animation
+      this.pieceDie.classList.remove('rolling');
+      this.movementDie.classList.remove('rolling');
+      
+      // Update labels
+      this.updateLabels(pieceResult, movementResult);
+      
+      // Re-enable button
+      this.isRolling = false;
+      this.rollButton.disabled = false;
+      this.rollButton.textContent = 'Roll Both Dice';
+      
+      // Trigger game logic (to be implemented later)
+      this.onDiceRolled(pieceResult, movementResult);
+      
+    }, rollDuration);
+  }
+  
+  rollSingleDie(type) {
+    if (this.isRolling) return;
+    
+    const die = type === 'piece' ? this.pieceDie : this.movementDie;
+    die.classList.add('rolling');
+    
+    // Quick roll animation
+    const rollDuration = 500;
+    const rollInterval = 50;
+    
+    const rollAnimation = setInterval(() => {
+      this.updateDiceDisplay(type, Math.floor(Math.random() * 6) + 1);
+    }, rollInterval);
+    
+    setTimeout(() => {
+      clearInterval(rollAnimation);
+      const result = Math.floor(Math.random() * 6) + 1;
+      this.updateDiceDisplay(type, result);
+      die.classList.remove('rolling');
+      
+      if (type === 'piece') {
+        this.updatePieceLabel(result);
+      } else {
+        this.updateMovementLabel(result);
+      }
+    }, rollDuration);
+  }
+  
+  updateDiceDisplay(type, value) {
+    const die = type === 'piece' ? this.pieceDie : this.movementDie;
+    const face = die.querySelector('.dice-face');
+    face.textContent = value;
+  }
+  
+  updateLabels(pieceValue, movementValue) {
+    this.updatePieceLabel(pieceValue);
+    this.updateMovementLabel(movementValue);
+  }
+  
+  updatePieceLabel(value) {
+    const label = this.pieceDie.parentElement.querySelector('.dice-label');
+    label.textContent = `Selects: ${this.pieceMapping[value]}`;
+  }
+  
+  updateMovementLabel(value) {
+    const label = this.movementDie.parentElement.querySelector('.dice-label');
+    label.textContent = `Direction: ${this.movementMapping[value]}`;
+  }
+  
+  onDiceRolled(pieceValue, movementValue) {
+    // This method will be expanded later for game logic
+    console.log(`Dice rolled: Piece=${this.pieceMapping[pieceValue]}, Movement=${this.movementMapping[movementValue]}`);
+    
+    // For now, just log the results
+    // Later we'll add logic to:
+    // 1. Find all pieces of the selected type
+    // 2. Determine valid moves based on movement die
+    // 3. Execute the move or highlight possibilities
+  }
+  
+  // Method to get current dice values (useful for game logic)
+  getCurrentValues() {
+    const pieceValue = parseInt(this.pieceDie.querySelector('.dice-face').textContent);
+    const movementValue = parseInt(this.movementDie.querySelector('.dice-face').textContent);
+    
+    return {
+      piece: pieceValue,
+      movement: movementValue,
+      pieceType: this.pieceMapping[pieceValue],
+      movementType: this.movementMapping[movementValue]
+    };
+  }
+}
+
+// Initialize the dice controller when the page loads
+document.addEventListener('DOMContentLoaded', () => {
+  window.diceController = new DiceController();
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+piece js
+
+
+
+
+const initialPosition = [
+  ["wr", "wk", "wb", "wq", "wk", "wb", "wk", "wr"],
+  ["wp", "wp", "wp", "wp", "wp", "wp", "wp", "wp"],
+  ["", "", "", "", "", "", "", ""],
+  ["", "", "", "", "", "", "", ""],
+  ["", "", "", "", "", "", "", ""],
+  ["", "", "", "", "", "", "", ""],
+  ["wp", "wp", "wp", "wp", "wp", "wp", "wp", "wp"],
+  ["wr", "wk", "wb", "wq", "wk", "wb", "wk", "wr"]
+];
+
+// Mapping piece codes to their hosted image URLs
+const pieceImages = {
+  wp: "https://i.ibb.co/HTqk2Lws/pawn.png",
+  wb: "https://i.ibb.co/yBGyPd1h/bishop.png",
+  wr: "https://i.ibb.co/2YvTYH57/rook.png",
+    wk: "https://i.ibb.co/TqRVhKrV/king.png",
+      wm: " https://i.ibb.co/TqRVhKrV/king.png",
+        wq: "https://i.ibb.co/k2TbvTnd/queen.png"
+  
+};
+
+window.onload = function () {
+  const board = document.getElementById("chessboard");
+  board.innerHTML = ""; // Clear any old content
+
+  for (let row = 0; row < 8; row++) {
+    for (let col = 0; col < 8; col++) {
+      const square = document.createElement("div");
+      square.className = "square " + ((row + col) % 2 === 0 ? "white" : "black");
+
+      // Check if there is a piece at this position in the initialPosition array
+      const pieceCode = initialPosition[row][col];
+      if (pieceCode !== "") {
+        const img = document.createElement("img");
+        img.src = pieceImages[pieceCode];
+        img.alt = pieceCode;
+        img.className = "chess-piece";
+        square.appendChild(img);
+      }
+
+      board.appendChild(square);
+    }
+  }
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+class DiceController {
+  constructor() {
+    this.pieceDie = document.getElementById('piece-die');
+    this.movementDie = document.getElementById('movement-die');
+    this.rollButton = document.getElementById('roll-dice');
+    this.isRolling = false;
+    this.rollCount = 0;
+    this.isLeftArrow = true; // Track current arrow state
+
+    this.pieceMapping = {
+      1: 'Rook',
+      2: 'Knight',
+      3: 'Bishop',
+      4: 'Queen',
+      5: 'King',
+      6: 'Pawn'
+    };
+
+    this.movementMapping = {
+      1: 'Forward',
+      2: 'Right',
+      3: 'Backward',
+      4: 'Left',
+      5: 'Diagonal',
+      6: 'Special Move'
+    };
+
+    // Check for required DOM elements
+    if (!this.pieceDie || !this.movementDie || !this.rollButton) {
+      console.error('DiceController: Missing required DOM elements.');
+      return;
+    }
+
+    this.init();
+
+    // Show initial left arrow when game starts
+    this.showLeftArrow();
+  }
+
+  init() {
+    this.rollButton.addEventListener('click', () => this.rollDice());
+    this.pieceDie.addEventListener('click', () => this.rollSingleDie('piece'));
+    this.movementDie.addEventListener('click', () => this.rollSingleDie('movement'));
+  }
+
+  rollDice() {
+    if (this.isRolling) return;
+
+    this.isRolling = true;
+    this.rollButton.disabled = true;
+    this.rollButton.textContent = 'Rolling...';
+
+    this.pieceDie.classList.add('rolling');
+    this.movementDie.classList.add('rolling');
+
+    const rollDuration = 1000;
+    const rollInterval = 100;
+
+    const rollAnimation = setInterval(() => {
+      this.updateDiceDisplay('piece', Math.floor(Math.random() * 6) + 1);
+      this.updateDiceDisplay('movement', Math.floor(Math.random() * 6) + 1);
+    }, rollInterval);
+
+    setTimeout(() => {
+      clearInterval(rollAnimation);
+
+      const pieceResult = this.rollCount === 0 ? 6 : 2;
+      const movementResult = this.rollCount === 0 ? 1 : 6;
+
+      this.updateDiceDisplay('piece', pieceResult);
+      this.updateDiceDisplay('movement', movementResult);
+
+      this.pieceDie.classList.remove('rolling');
+      this.movementDie.classList.remove('rolling');
+
+      this.updateLabels(pieceResult, movementResult);
+
+      this.isRolling = false;
+      this.rollButton.disabled = false;
+      this.rollButton.textContent = 'Roll Both Dice';
+
+      this.onDiceRolled(pieceResult, movementResult);
+
+      this.toggleArrow();
+
+    }, rollDuration);
+  }
+
+  rollSingleDie(type) {
+    if (this.isRolling) return;
+
+    const die = type === 'piece' ? this.pieceDie : this.movementDie;
+    die.classList.add('rolling');
+
+    const rollDuration = 500;
+    const rollInterval = 50;
+
+    const rollAnimation = setInterval(() => {
+      this.updateDiceDisplay(type, Math.floor(Math.random() * 6) + 1);
+    }, rollInterval);
+
+    setTimeout(() => {
+      clearInterval(rollAnimation);
+      const result = Math.floor(Math.random() * 6) + 1;
+      this.updateDiceDisplay(type, result);
+      die.classList.remove('rolling');
+
+      if (type === 'piece') {
+        this.updatePieceLabel(result);
+      } else {
+        this.updateMovementLabel(result);
+      }
+    }, rollDuration);
+  }
+
+  updateDiceDisplay(type, value) {
+    const die = type === 'piece' ? this.pieceDie : this.movementDie;
+    const face = die.querySelector('.dice-face');
+    face.textContent = value;
+  }
+
+  updateLabels(pieceValue, movementValue) {
+    this.updatePieceLabel(pieceValue);
+    this.updateMovementLabel(movementValue);
+  }
+
+  updatePieceLabel(value) {
+    const label = this.pieceDie.parentElement.querySelector('.dice-label');
+    label.textContent = `Selects: ${this.pieceMapping[value]}`;
+  }
+
+  updateMovementLabel(value) {
+    const label = this.movementDie.parentElement.querySelector('.dice-label');
+    label.textContent = `Direction: ${this.movementMapping[value]}`;
+  }
+
+  onDiceRolled(pieceValue, movementValue) {
+    console.log(`Dice rolled: Piece=${this.pieceMapping[pieceValue]}, Movement=${this.movementMapping[movementValue]}`);
+
+    // Execute moves based on roll count
+    if (this.rollCount === 0) {
+      this.moveThirdPawn();
+    } else if (this.rollCount === 1) {
+      this.moveOppositeKing();
+    }
+
+    this.rollCount++;
+  }
+
+  moveOppositeKing() {
+    // Move king from row 7 col 4 (wk) forward two then left
+    if (typeof initialPosition !== "undefined" && initialPosition[7][4] === "wk") {
+      initialPosition[7][4] = "";
+      initialPosition[5][3] = "wk";
+      this.updateVisualBoard();
+    }
+  }
+
+  showLeftArrow() {
+    // Remove any existing arrow
+    const existingArrow = document.getElementById('turn-arrow');
+    if (existingArrow) {
+      existingArrow.remove();
+    }
+
+    // Create left turn indicator arrow
+    const arrow = document.createElement('div');
+    arrow.id = 'turn-arrow';
+    arrow.innerHTML = '◀';
+    arrow.style.cssText = `
+      position: fixed;
+      left: 20px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 60px;
+      color: #f20707;
+      z-index: 1000;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+      animation: pulse 1.5s infinite;
+    `;
+
+    // Add pulse animation only once
+    if (!document.getElementById('pulse-keyframes')) {
+      const style = document.createElement('style');
+      style.id = 'pulse-keyframes';
+      style.textContent = `
+        @keyframes pulse {
+          0% { opacity: 1; transform: translateY(-50%) scale(1); }
+          50% { opacity: 0.7; transform: translateY(-50%) scale(1.1); }
+          100% { opacity: 1; transform: translateY(-50%) scale(1); }
+        }
+      `;
+      document.head.appendChild(style);
+    }
+    document.body.appendChild(arrow);
+  }
+
+  showRightArrow() {
+    // Remove any existing arrow
+    const existingArrow = document.getElementById('turn-arrow');
+    if (existingArrow) {
+      existingArrow.remove();
+    }
+
+    // Create right turn indicator arrow
+    const arrow = document.createElement('div');
+    arrow.id = 'turn-arrow';
+    arrow.innerHTML = '▶';
+    arrow.style.cssText = `
+      position: fixed;
+      right: 20px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 60px;
+      color: #f20707;
+      z-index: 1000;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+      animation: pulse 1.5s infinite;
+    `;
+    document.body.appendChild(arrow);
+  }
+
+  toggleArrow() {
+    this.isLeftArrow = !this.isLeftArrow;
+    if (this.isLeftArrow) {
+      this.showLeftArrow();
+    } else {
+      this.showRightArrow();
+    }
+  }
+
+  moveThirdPawn() {
+    // Update the position array - move third pawn from row 1 col 2 to row 2 col 2
+    if (typeof initialPosition !== "undefined" && initialPosition[1][2] === "wp") {
+      initialPosition[1][2] = "";
+      initialPosition[2][2] = "wp";
+      this.updateVisualBoard();
+    }
+  }
+
+  moveOppositeKing() {
+    // Move king from row 7 col 6 (wk) to row 5 col 5
+    if (typeof initialPosition !== "undefined" && initialPosition[7][6] === "wk") {
+      initialPosition[7][6] = "";
+      initialPosition[5][5] = "wk";
+      this.updateVisualBoard();
+    }
+  }
+
+
+  
+
+  updateVisualBoard() {
+    const board = document.getElementById("chessboard");
+    if (!board) return;
+    board.innerHTML = "";
+
+    for (let row = 0; row < 8; row++) {
+      for (let col = 0; col < 8; col++) {
+        const square = document.createElement("div");
+        square.className = "square " + ((row + col) % 2 === 0 ? "white" : "black");
+
+        // Check if there is a piece at this position in the updated initialPosition array
+        if (typeof initialPosition !== "undefined") {
+          const pieceCode = initialPosition[row][col];
+          if (pieceCode !== "") {
+            const img = document.createElement("img");
+            img.src = pieceImages[pieceCode];
+            img.alt = pieceCode;
+            img.className = "chess-piece";
+            square.appendChild(img);
+          }
+        }
+
+        board.appendChild(square);
+      }
+    }
+  }
+
+  getCurrentValues() {
+    const pieceValue = parseInt(this.pieceDie.querySelector('.dice-face').textContent);
+    const movementValue = parseInt(this.movementDie.querySelector('.dice-face').textContent);
+
+    return {
+      piece: pieceValue,
+      movement: movementValue,
+      pieceType: this.pieceMapping[pieceValue],
+      movementType: this.movementMapping[movementValue]
+    };
+  }
+}
+
+// Initialize the dice controller when the page loads
+document.addEventListener('DOMContentLoaded', () => {
+  window.diceController = new DiceController();
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+const initialPosition = [
+  ["wr", "wk", "wb", "wq", "wm", "wb", "wk", "wr"],
+  ["wp", "wp", "wp", "wp", "wp", "wp", "wp", "wp"],
+  ["", "", "", "", "", "", "", ""],
+  ["", "", "", "", "", "", "", ""],
+  ["", "", "", "", "", "", "", ""],
+  ["", "", "", "", "", "", "", ""],
+  ["wp", "wp", "wp", "wp", "wp", "wp", "wp", "wp"],
+  ["wr", "wk", "wb", "wq", "wm", "wb", "wk", "wr"]
+];
+
+// Mapping piece codes to their hosted image URLs
+const pieceImages = {
+  wp: "https://i.ibb.co/HTqk2Lws/pawn.png",
+  wb: "https://i.ibb.co/yBGyPd1h/bishop.png",
+  wr: "https://i.ibb.co/2YvTYH57/rook.png",
+    wk: "https://i.ibb.co/cShHDVHL/kuthira.png",
+      wm: " https://i.ibb.co/TqRVhKrV/king.png",
+        wq: "https://i.ibb.co/k2TbvTnd/queen.png"
+  
+};
+
+window.onload = function () {
+  const board = document.getElementById("chessboard");
+  board.innerHTML = ""; // Clear any old content
+
+  for (let row = 0; row < 8; row++) {
+    for (let col = 0; col < 8; col++) {
+      const square = document.createElement("div");
+      square.className = "square " + ((row + col) % 2 === 0 ? "white" : "black");
+
+      // Check if there is a piece at this position in the initialPosition array
+      const pieceCode = initialPosition[row][col];
+      if (pieceCode !== "") {
+        const img = document.createElement("img");
+        img.src = pieceImages[pieceCode];
+        img.alt = pieceCode;
+        img.className = "chess-piece";
+        square.appendChild(img);
+      }
+
+      board.appendChild(square);
+    }
+  }
+};
+
+

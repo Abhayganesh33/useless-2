@@ -1,0 +1,68 @@
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tilted Dice-Controlled Chess</title>
+    <link rel="stylesheet" href="style.css">
+    </head>
+    <body>
+    <h1>Tilted Dice-Controlled Chess</h1>
+    <div class="main-container">
+        <div class="dice-container">
+        <h2>Roll the Dice!</h2>
+        <div class="dice-section">
+            <div class="dice-group">
+            <h3>Piece Selection Die</h3>
+            <div class="dice" id="piece-die">
+                <div class="dice-face">1</div>
+            </div>
+            <p class="dice-label">Selects: Rook</p>
+            </div>
+            
+            <div class="dice-group">
+            <h3>Movement Die</h3>
+            <div class="dice" id="movement-die">
+                <div class="dice-face">4</div>
+            </div>
+            <p class="dice-label">Direction: Left</p>
+            </div>
+        </div>
+        
+        <button class="roll-button" id="roll-dice">Roll Both Dice</button>
+        </div>
+        
+        <div class="board-container">
+        <div id="chessboard"></div>
+        </div>
+        
+        <div class="legend-container">
+        <div class="dice-legend">
+            <h4>Piece Selection (Die 1):</h4>
+            <ul>
+            <li>1 = Rook</li>
+            <li>2 = Knight</li>
+            <li>3 = Bishop</li>
+            <li>4 = Queen</li>
+            <li>5 = King</li>
+            <li>6 = Pawn</li>
+            </ul>
+            
+            <h4>Movement (Die 2):</h4>
+            <ul>
+            <li>1 = Forward</li>
+            <li>2 = Right</li>
+            <li>3 = Backward</li>
+            <li>4 = Left</li>
+            <li>5 = Diagonal</li>
+            <li>6 = Special Move</li>
+            </ul>
+        </div>
+        </div>
+    </div>
+    
+    <script src="script.js"></script>
+    <script src="pieces.js"></script>
+    <script src="dice.js"></script>
+    </body>
+    </html>

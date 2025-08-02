@@ -1,0 +1,256 @@
+body {
+  margin: 0;
+  padding: 0;
+  background: url('https://i.ibb.co/Sj32xdQ/wood-2045380-1920.jpg') no-repeat center center fixed;
+  background-size: cover;
+  font-family: Arial, sans-serif;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 20px;
+}
+
+h1 {
+  margin: 20px 0;
+  color: #f20707;
+  text-align: center;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.main-container {
+  display: grid;
+  grid-template-columns: 250px 1fr 250px;
+  align-items: start;
+  justify-content: center;
+  width: 100%;
+  max-width: 900px;
+  gap: 140px;
+  margin-top: 20px;
+}
+
+.board-container {
+  perspective: 1000px;
+  transform: scale(0.85);
+  justify-self: center;
+}
+
+#chessboard {
+  display: grid;
+  grid-template-columns: repeat(8, 60px);
+  grid-template-rows: repeat(8, 60px);
+  transform: rotateX(30deg);
+  transform-origin: top center;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+  border: 4px solid #222;
+  border-radius: 8px;
+}
+
+.square {
+  width: 60px;
+  height: 60px;
+  box-sizing: border-box;
+}
+
+.white {
+  background: #f3eac3;
+}
+
+.black {
+  background-color: #8b5e3c;
+  background-image: repeating-linear-gradient(
+    45deg,
+    #8b5e3c 0px,
+    #8b5e3c 8px,
+    #71492e 8px,
+    #71492e 10px
+  );
+}
+
+.chess-piece {
+  width: 100%;
+  height: 100%;
+  max-width: 100px;
+  max-height: 100px;
+  object-fit: contain;
+  display: block;
+  margin: auto;
+  pointer-events: none;
+  user-select: none;
+}
+
+/* Dice Container Styles */
+.dice-container {
+  background: rgba(255, 255, 255, 0.35);
+  padding: 20px;
+  border-radius: 15px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+  border: 3px solid #8b5e3c;
+  width: 100%;
+  height: 400px;
+}
+
+.dice-container h2 {
+  text-align: center;
+  color: #000000;
+  margin-bottom: 20px;
+  font-size: 1.2em;
+}
+
+.dice-section {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+.dice-group {
+  text-align: center;
+}
+
+.dice-group h3 {
+  color: #000000;
+  margin-bottom: 10px;
+  font-size: 1em;
+}
+
+.dice {
+  width: 60px;
+  height: 60px;
+  background: #fff;
+  border: 3px solid #333;
+  border-radius: 12px;
+  margin: 10px auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  transition: transform 0.3s ease;
+  cursor: pointer;
+}
+
+.dice:hover {
+  transform: scale(1.05);
+}
+
+.dice.rolling {
+  animation: rollAnimation 1s ease-in-out;
+}
+
+@keyframes rollAnimation {
+  0% { transform: rotate(0deg) scale(1); }
+  25% { transform: rotate(90deg) scale(1.1); }
+  50% { transform: rotate(180deg) scale(1.2); }
+  75% { transform: rotate(270deg) scale(1.1); }
+  100% { transform: rotate(360deg) scale(1); }
+}
+
+.dice-face {
+  font-size: 2em;
+  font-weight: bold;
+  color: #333;
+}
+
+.dice-label {
+  color: #000000;
+  font-size: 0.8em;
+  margin-top: 5px;
+  font-weight: bold;
+}
+
+.roll-button {
+  width: 100%;
+  padding: 12px;
+  background: linear-gradient(45deg, #f20707, #ff4444);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 1em;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-bottom: 15px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.roll-button:hover {
+  background: linear-gradient(45deg, #d40606, #ff3333);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+}
+
+.roll-button:active {
+  transform: translateY(0);
+}
+
+.roll-button:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* Legend Container Styles */
+.legend-container {
+  background: rgba(255, 255, 255, 0.35);
+  padding: 20px;
+  border-radius: 15px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+  border: 3px solid #8b5e3c;
+  width: 100%;
+  height: 400px;
+}
+
+.dice-legend {
+  background: transparent;
+  padding: 0;
+  border-radius: 0;
+  font-size: 0.9em;
+}
+
+.dice-legend h4 {
+  color: #000000;
+  margin: 0 0 8px 0;
+  font-size: 1.1em;
+}
+
+.dice-legend ul {
+  margin: 0 0 15px 0;
+  padding-left: 20px;
+}
+
+.dice-legend li {
+  color: #000000;
+  margin-bottom: 3px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .main-container {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto auto;
+    gap: 15px;
+    max-width: 95%;
+  }
+  
+  .dice-container,
+  .legend-container {
+    width: 100%;
+    max-width: 300px;
+    justify-self: center;
+  }
+  
+  .board-container {
+    transform: scale(0.7);
+    order: 2;
+  }
+  
+  .dice-container {
+    order: 1;
+  }
+  
+  .legend-container {
+    order: 3;
+  }
+}
+
