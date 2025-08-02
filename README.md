@@ -34,6 +34,8 @@ Everyone's memorizing openings, studying endgames... boring!
 Let the dice decide for you!  
 Forget strategy — embrace the randomness and let chaos reign on the 64 squares of fate.
 
+
+video demo link  :  https://drive.google.com/file/d/18I5Wzh5KfSHWp4u7FrD9ztbiOa0Hl7st/view?usp=drivesdk
 ---
 
 ## 🛠️ Technologies Used
